@@ -24,17 +24,76 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
 
 **Procedure**
 
-/* write all the steps invloved */
+/* 1.Increment count on each positive edge of the clock.
+2.Reset count to zero when it reaches 15.
+3.Generate clock signal (clk).
+4.Instantiate the RippleCounter module.
+5.Conduct fuctional testing by displaying the count at each clock cycle for 16 cycles */
 
 **PROGRAM**
 
 /* Program for 4 Bit Ripple Counter and verify its truth table in quartus using Verilog programming.
+```
+module ripple_counter_4bit (
+    input wire clk,        // Clock input
+    input wire reset,      // Asynchronous reset (active high)
+    output reg [3:0] count // 4-bit output count
+);
 
- Developed by: RegisterNumber:
+    // Internal signals for flip-flop clocks
+    wire tff0_clk;
+    wire tff1_clk;
+    wire tff2_clk;
+    wire tff3_clk;
+
+    assign tff0_clk = clk;
+    assign tff1_clk = count[0];
+    assign tff2_clk = count[1];
+    assign tff3_clk = count[2];
+
+    // Flip-flop for bit 0 (LSB)
+    always @(posedge tff0_clk or posedge reset) begin
+        if (reset)
+            count[0] <= 0;
+        else
+            count[0] <= ~count[0];
+    end
+
+    // Flip-flop for bit 1
+    always @(posedge tff1_clk or posedge reset) begin
+        if (reset)
+            count[1] <= 0;
+        else
+            count[1] <= ~count[1];
+    end
+
+    // Flip-flop for bit 2
+    always @(posedge tff2_clk or posedge reset) begin
+        if (reset)
+            count[2] <= 0;
+        else
+            count[2] <= ~count[2];
+    end
+
+    // Flip-flop for bit 3 (MSB)
+    always @(posedge tff3_clk or posedge reset) begin
+        if (reset)
+            count[3] <= 0;
+        else
+            count[3] <= ~count[3];
+    end
+
+endmodule
+```
+ Developed by: Tanisha S RegisterNumber: 212224050053
 */
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
+![image](https://github.com/user-attachments/assets/c37b2e57-f798-4a31-b392-49c09aa299f6)
 
 **TIMING DIGRAMS FOR 4 Bit Ripple Counter**
+![image](https://github.com/user-attachments/assets/b3f9c48d-6fa0-4e08-abcc-96841b531074)
 
 **RESULTS**
+Thus the program to implement a 4 Bit Ripple Counter using verilog and validating their
+functionality using their functional tables is successfully completed.
